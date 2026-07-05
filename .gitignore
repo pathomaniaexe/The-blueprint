@@ -1,0 +1,35 @@
+# Private / sensitive — never commit
+.sharing.env
+.env
+.env.*
+!.env.example
+data/*.json
+mansion/rooms.json
+mansion/data/*.json
+
+# Built page (regenerate with: python3 scripts/build-mansion-page.py)
+mansion.html
+
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+.venv/
+venv/
+
+# Node / Cloudflare (optional worker deploy)
+node_modules/
+.wrangler/
+package-lock.json
+
+# Local tunnels
+cloudflared/config.yml
+cloudflared/credentials.json
+bin/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
