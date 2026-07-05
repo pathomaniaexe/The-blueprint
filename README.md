@@ -2,8 +2,6 @@
 
 A private, password-gated headspace mansion for DID/OSDD systems. Map rooms, set lock states, and optionally import alters from PluralKit.
 
-This repo is the **public blueprint**. Your personal rooms, passwords, and live data stay in your own private copy — never commit those here.
-
 ## What you get
 
 - Login with owner vs view-only passwords
