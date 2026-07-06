@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Mansion</title>
+  <link rel="stylesheet" href="mansion/static/styles.css?v=20260706-01">
+  <script src="mansion/static/mansion-customize.js?v=20260706-01"></script>
+</head>
+<body>
+  <script id="mansion-rooms-data" type="application/json">[{"name": "Foyer", "state": "open", "note": "The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should."}, {"name": "Staircase", "state": "open", "note": "A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful."}, {"name": "Non-dormant doors", "state": "unlocked", "note": "Doors for active or reachable parts stay unlocked. They can be named and described when you are ready."}, {"name": "Dormant doors", "state": "internally locked", "note": "Dormant rooms are locked from the inside. No one outside the room can force them open."}, {"name": "Force-dormant doors", "state": "external lock", "note": "Old-style external locks mark doors that need extra boundaries, time, or protection before opening."}]</script>
+  <div class="ambient"></div>
+  <main>
+    <div id="login-view">
+      <section class="login-shell">
+      <div class="login-hero" aria-hidden="true">
+        <div class="login-hero-sky">
+          <span class="login-starfield"></span>
+          <span class="login-moon"></span>
+        </div>
+        <svg class="login-mansion-art" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mansion at night">
+          <defs>
+            <linearGradient id="roof-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3d342c"/>
+              <stop offset="100%" stop-color="#1a1512"/>
+            </linearGradient>
+            <linearGradient id="wall-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2e2824"/>
+              <stop offset="100%" stop-color="#1c1815"/>
+            </linearGradient>
+            <linearGradient id="window-glow" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f0d890"/>
+              <stop offset="100%" stop-color="#c45a2c"/>
+            </linearGradient>
+            <filter id="window-blur" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <ellipse cx="240" cy="318" rx="210" ry="18" fill="#0a0908" opacity="0.55"/>
+          <path d="M40 300 L440 300 L440 310 L40 310 Z" fill="#14110f"/>
+          <path d="M120 300 L360 300 L350 268 L130 268 Z" fill="#1a1613"/>
+          <rect x="155" y="268" width="170" height="32" fill="url(#wall-grad)" stroke="#3a332c" stroke-width="1"/>
+          <path d="M130 268 L240 190 L350 268 Z" fill="url(#roof-grad)" stroke="#4a4036" stroke-width="1.2"/>
+          <rect x="218" y="175" width="44" height="58" fill="url(#wall-grad)" stroke="#3a332c" stroke-width="1"/>
+          <path d="M210 175 L240 138 L270 175 Z" fill="url(#roof-grad)" stroke="#4a4036" stroke-width="1"/>
+          <rect x="88" y="210" width="72" height="90" fill="url(#wall-grad)" stroke="#3a332c" stroke-width="1"/>
+          <path d="M80 210 L124 168 L168 210 Z" fill="url(#roof-grad)" stroke="#4a4036" stroke-width="1"/>
+          <rect x="320" y="210" width="72" height="90" fill="url(#wall-grad)" stroke="#3a332c" stroke-width="1"/>
+          <path d="M312 210 L356 168 L400 210 Z" fill="url(#roof-grad)" stroke="#4a4036" stroke-width="1"/>
+          <rect x="278" y="148" width="22" height="36" fill="#2a2420" stroke="#3a332c" stroke-width="0.8"/>
+          <rect x="278" y="132" width="22" height="18" fill="#1e1a17" stroke="#3a332c" stroke-width="0.8"/>
+          <g class="login-smoke">
+            <circle cx="289" cy="118" r="6" fill="#8a7f74" opacity="0.25"/>
+            <circle cx="295" cy="102" r="8" fill="#8a7f74" opacity="0.18"/>
+            <circle cx="283" cy="88" r="10" fill="#8a7f74" opacity="0.12"/>
+          </g>
+          <g filter="url(#window-blur)">
+            <rect class="login-lit-window" x="104" y="232" width="18" height="28" rx="1" fill="url(#window-glow)"/>
+            <rect class="login-lit-window" x="130" y="232" width="18" height="28" rx="1" fill="url(#window-glow)" style="animation-delay:.8s"/>
+            <rect class="login-lit-window" x="336" y="232" width="18" height="28" rx="1" fill="url(#window-glow)" style="animation-delay:1.6s"/>
+            <rect class="login-lit-window" x="362" y="232" width="18" height="28" rx="1" fill="url(#window-glow)" style="animation-delay:2.4s"/>
+            <rect class="login-lit-window" x="178" y="228" width="16" height="22" rx="1" fill="url(#window-glow)" style="animation-delay:.4s"/>
+            <rect class="login-lit-window" x="286" y="228" width="16" height="22" rx="1" fill="url(#window-glow)" style="animation-delay:1.2s"/>
+            <rect class="login-lit-window" x="228" y="192" width="14" height="18" rx="1" fill="url(#window-glow)" style="animation-delay:2s"/>
+          </g>
+          <g stroke="#0c0a09" stroke-width="1.2" opacity="0.7">
+            <line x1="113" y1="232" x2="113" y2="260"/><line x1="104" y1="246" x2="122" y2="246"/>
+            <line x1="139" y1="232" x2="139" y2="260"/><line x1="130" y1="246" x2="148" y2="246"/>
+            <line x1="345" y1="232" x2="345" y2="260"/><line x1="336" y1="246" x2="354" y2="246"/>
+            <line x1="371" y1="232" x2="371" y2="260"/><line x1="362" y1="246" x2="380" y2="246"/>
+          </g>
+          <path d="M208 300 L208 248 Q240 220 272 248 L272 300 Z" fill="#241e19" stroke="#3a332c" stroke-width="1.2"/>
+          <circle cx="262" cy="276" r="3.5" fill="#d4a853"/>
+          <path d="M175 300 L305 300" stroke="#2a2420" stroke-width="3" stroke-linecap="round"/>
+          <path d="M168 300 L168 268 L178 268 L178 300 M302 300 L302 268 L312 268 L312 300" stroke="#3a332c" stroke-width="2" fill="none"/>
+          <path d="M60 300 Q90 270 120 300" fill="#12100e" stroke="#1e1a17" stroke-width="1"/>
+          <path d="M360 300 Q390 272 420 300" fill="#12100e" stroke="#1e1a17" stroke-width="1"/>
+        </svg>
+        <div class="login-hero-fog"></div>
+        <p class="login-hero-caption" data-customize="loginCaption">The headspace stretches wider than it should.</p>
+      </div>
+      <div class="login-panel-wrap">
+        <form class="login-panel" id="login-form" autocomplete="off">
+          <p class="eyebrow" data-customize="loginEyebrow">Private system space</p>
+          <h1 data-customize="siteNameLocked">The mansion is locked.</h1>
+          <p class="intro" data-customize="loginIntro">Enter the house password to continue.</p>
+          
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required autofocus autocomplete="current-password">
+          <button type="submit">Unlock</button>
+          <p class="login-hint">Owner password opens every room. View-only password can look around but not edit.</p>
+          <p class="security-note">Not indexed. Session stays in this browser until you lock the site.</p>
+        </form>
+      </div>
+    </section>
+    </div>
+    <div id="mansion-view" hidden>
+      <div class="topbar">
+        <span class="role-pill" id="role-pill">Signed in</span>
+        <div class="logout"><button type="button" id="lock-site">Lock Site</button></div>
+      </div>
+      <section class="house">
+      <div class="house-hero">
+        <div>
+          <p class="eyebrow" data-customize="eyebrow">Headspace directory</p>
+          <h1 data-customize="siteName">The Mansion</h1>
+          <p class="intro" data-customize="intro">A private room system for the mansion headspace. Rooms can be added, edited, locked, unlocked, and imported from PluralKit with dev permissions.</p>
+        </div>
+        <div class="house-summary" data-customize-aria="summaryLabel" aria-label="Current mansion summary">
+          <div><strong>5</strong><span>Total rooms</span></div>
+          <div><strong>3</strong><span>Open or unlocked</span></div>
+          <div><strong>1</strong><span>Dormant</span></div>
+          <div><strong>1</strong><span>Force-dormant</span></div>
+        </div>
+      </div>
+
+      <nav class="tabs" data-customize-aria="tabsLabel" aria-label="Mansion sections">
+        
+        <button class="tab active" type="button" data-tab="map">Map</button>
+        <button class="tab" type="button" data-tab="rooms">Rooms</button>
+        <button class="tab" type="button" data-tab="notes">Notes</button>
+        <button class="tab" type="button" data-tab="customize" data-owner-only>Customize</button>
+    
+      </nav>
+
+      <section class="tab-panel active" id="map" role="tabpanel">
+        <div class="section-heading">
+          <h2>Current Layout</h2>
+          <p>Sort and filter the map by room state — dormant, force-dormant, unlocked, and more.</p>
+        </div>
+        
+    <div class="layout-sort" data-target="map-board" data-control-id="map" data-page-size="48">
+      <div class="layout-sort-row">
+        <label class="layout-sort-label" for="map-search">Search</label>
+        <input id="map-search" class="layout-search" type="search" placeholder="Find a room by name..." autocomplete="off" spellcheck="false">
+      </div>
+      <div class="layout-sort-row">
+        <label class="layout-sort-label" for="map-sort">Sort</label>
+        <select id="map-sort" class="layout-sort-select">
+          <option value="layout">Layout order</option>
+          <option value="state">By state</option>
+          <option value="name">By name</option>
+        </select>
+      </div>
+      <div class="layout-filter" role="group" aria-label="Filter by state">
+        <button type="button" class="layout-filter-btn active" data-filter="all">All</button>
+        <button type="button" class="layout-filter-btn" data-filter="open">Open</button>
+        <button type="button" class="layout-filter-btn" data-filter="unlocked">Unlocked</button>
+        <button type="button" class="layout-filter-btn" data-filter="internally locked">Dormant</button>
+        <button type="button" class="layout-filter-btn" data-filter="external lock">Force-dormant</button>
+      </div>
+    </div>
+    
+        <div class="map-board" id="map-board">
+          
+        <article class="map-room" data-layout-index="0" data-name="foyer" data-state="open">
+          <div class="map-room-top">
+            <span class="map-position">1</span>
+            
+          </div>
+          <strong>Foyer</strong>
+          <small>open</small>
+        </article>
+        
+
+        <article class="map-room" data-layout-index="1" data-name="staircase" data-state="open">
+          <div class="map-room-top">
+            <span class="map-position">2</span>
+            
+          </div>
+          <strong>Staircase</strong>
+          <small>open</small>
+        </article>
+        
+
+        <article class="map-room" data-layout-index="2" data-name="non-dormant doors" data-state="unlocked">
+          <div class="map-room-top">
+            <span class="map-position">3</span>
+            
+          </div>
+          <strong>Non-dormant doors</strong>
+          <small>unlocked</small>
+        </article>
+        
+
+        <article class="map-room" data-layout-index="3" data-name="dormant doors" data-state="internally locked">
+          <div class="map-room-top">
+            <span class="map-position">4</span>
+            
+          </div>
+          <strong>Dormant doors</strong>
+          <small>internally locked</small>
+        </article>
+        
+
+        <article class="map-room" data-layout-index="4" data-name="force-dormant doors" data-state="external lock">
+          <div class="map-room-top">
+            <span class="map-position">5</span>
+            
+          </div>
+          <strong>Force-dormant doors</strong>
+          <small>external lock</small>
+        </article>
+        
+        </div>
+        
+    <nav class="layout-pagination" id="map-pagination" hidden aria-label="Page navigation">
+      <button type="button" class="page-btn" data-page="prev">Previous</button>
+      <span class="page-status" id="map-page-status">Page 1 of 1</span>
+      <button type="button" class="page-btn" data-page="next">Next</button>
+    </nav>
+    
+      </section>
+
+      <section class="tab-panel" id="rooms" role="tabpanel" hidden>
+        <div class="section-heading section-heading-actions">
+          <div>
+            <h2>Room Status</h2>
+            <p>Owner/dev/alter permissions can add, edit, lock, unlock, and import rooms. View-only can only read.</p>
+          </div>
+          
+    <div class="rooms-toolbar" data-owner-only>
+      <button type="button" class="dialog-open" data-owner-only data-dialog="add-room-dialog">New room</button>
+      <button type="button" class="dialog-open dialog-open-pk" data-dialog="pk-import-dialog">Import PluralKit</button>
+    </div>
+    
+        </div>
+        
+    <aside class="state-legend" aria-label="What each room state means">
+      <h3>State index</h3>
+      <div class="state-legend-grid">
+        <div class="state-legend-item" data-state="open">
+          <div class="state-legend-head">
+            <span class="state-legend-pill">Open</span>
+            <span class="state-legend-code">open</span>
+          </div>
+          <p>Shared spaces that stay reachable — foyer, halls, and common areas.</p>
+        </div>
+            
+        <div class="state-legend-item" data-state="unlocked">
+          <div class="state-legend-head">
+            <span class="state-legend-pill">Unlocked</span>
+            <span class="state-legend-code">unlocked</span>
+          </div>
+          <p>Active or reachable parts. The door is open.</p>
+        </div>
+            
+        <div class="state-legend-item" data-state="internally locked">
+          <div class="state-legend-head">
+            <span class="state-legend-pill">Dormant</span>
+            <span class="state-legend-code">internally locked</span>
+          </div>
+          <p>Locked from the inside. No one outside the room can force it open.</p>
+        </div>
+            
+        <div class="state-legend-item" data-state="external lock">
+          <div class="state-legend-head">
+            <span class="state-legend-pill">Force-dormant</span>
+            <span class="state-legend-code">external lock</span>
+          </div>
+          <p>External lock — needs extra boundaries, time, or protection before opening.</p>
+        </div>
+            </div>
+    </aside>
+    
+        
+    <div class="layout-sort" data-target="room-grid" data-control-id="rooms" data-page-size="24">
+      <div class="layout-sort-row">
+        <label class="layout-sort-label" for="rooms-search">Search</label>
+        <input id="rooms-search" class="layout-search" type="search" placeholder="Find a room by name..." autocomplete="off" spellcheck="false">
+      </div>
+      <div class="layout-sort-row">
+        <label class="layout-sort-label" for="rooms-sort">Sort</label>
+        <select id="rooms-sort" class="layout-sort-select">
+          <option value="layout">Layout order</option>
+          <option value="state">By state</option>
+          <option value="name">By name</option>
+        </select>
+      </div>
+      <div class="layout-filter" role="group" aria-label="Filter by state">
+        <button type="button" class="layout-filter-btn active" data-filter="all">All</button>
+        <button type="button" class="layout-filter-btn" data-filter="open">Open</button>
+        <button type="button" class="layout-filter-btn" data-filter="unlocked">Unlocked</button>
+        <button type="button" class="layout-filter-btn" data-filter="internally locked">Dormant</button>
+        <button type="button" class="layout-filter-btn" data-filter="external lock">Force-dormant</button>
+      </div>
+    </div>
+    
+        <div class="room-grid" id="room-grid">
+          
+        <article class="room-card room-card-manual" data-layout-index="0" data-name="foyer" data-state="open">
+          
+    <div class="room-card-head">
+      
+      <div class="room-card-title">
+        <div class="room-card-labels">
+          <span class="room-state">open</span>
+          
+        </div>
+        <h3>Foyer</h3>
+        
+      </div>
+    </div>
+    
+          <div class="room-quick-actions"><button type="button" class="room-edit-open" data-owner-only data-dialog="room-dialog-0">Edit</button>
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="0">
+      <input type="hidden" name="name" value="Foyer">
+      <input type="hidden" name="note" value="The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should.">
+      <input type="hidden" name="state" value="open">
+    
+        <button type="submit" name="action" value="unlock">Unlock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="0">
+      <input type="hidden" name="name" value="Foyer">
+      <input type="hidden" name="note" value="The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should.">
+      <input type="hidden" name="state" value="open">
+    
+        <button type="submit" name="action" value="dormant">Dormant</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="0">
+      <input type="hidden" name="name" value="Foyer">
+      <input type="hidden" name="note" value="The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should.">
+      <input type="hidden" name="state" value="open">
+    
+        <button type="submit" name="action" value="force">Lock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update" data-confirm="Delete this room?">
+        
+      <input type="hidden" name="index" value="0">
+      <input type="hidden" name="name" value="Foyer">
+      <input type="hidden" name="note" value="The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should.">
+      <input type="hidden" name="state" value="open">
+    
+        <button class="danger" type="submit" name="action" value="delete">Delete</button>
+      </form>
+                </div>
+          <p class="room-card-blurb">The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should.</p>
+          
+          
+    <dialog class="room-dialog" data-owner-only id="room-dialog-0">
+      <div class="dialog-head">
+        <h4>Edit Foyer</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="room-manage" method="post" action="/rooms/update">
+        <input type="hidden" name="index" value="0">
+        <label>
+          <span>Name</span>
+          <input name="name" maxlength="100" value="Foyer" required>
+        </label>
+        <label>
+          <span>State</span>
+          <select name="state"><option value="open" selected>open</option>
+<option value="unlocked">unlocked</option>
+<option value="internally locked">internally locked</option>
+<option value="external lock">external lock</option></select>
+        </label>
+        
+        <label class="wide">
+          <span>Details</span>
+          <textarea name="note" maxlength="4000" required>The first room inside: chandelier overhead, chimney ahead, and the house stretching wider than it should.</textarea>
+        </label>
+        
+        <div class="room-actions">
+          <button type="submit" name="action" value="save">Save</button>
+          <button type="submit" name="action" value="unlock">Unlock</button>
+          <button type="submit" name="action" value="dormant">Dormant</button>
+          <button type="submit" name="action" value="force">Force Lock</button>
+          <button class="danger" type="submit" name="action" value="delete">Delete</button>
+        </div>
+      </form>
+    </dialog>
+    
+        </article>
+        
+
+        <article class="room-card room-card-manual" data-layout-index="1" data-name="staircase" data-state="open">
+          
+    <div class="room-card-head">
+      
+      <div class="room-card-title">
+        <div class="room-card-labels">
+          <span class="room-state">open</span>
+          
+        </div>
+        <h3>Staircase</h3>
+        
+      </div>
+    </div>
+    
+          <div class="room-quick-actions"><button type="button" class="room-edit-open" data-owner-only data-dialog="room-dialog-1">Edit</button>
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="1">
+      <input type="hidden" name="name" value="Staircase">
+      <input type="hidden" name="note" value="A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful.">
+      <input type="hidden" name="state" value="open">
+    
+        <button type="submit" name="action" value="unlock">Unlock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="1">
+      <input type="hidden" name="name" value="Staircase">
+      <input type="hidden" name="note" value="A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful.">
+      <input type="hidden" name="state" value="open">
+    
+        <button type="submit" name="action" value="dormant">Dormant</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="1">
+      <input type="hidden" name="name" value="Staircase">
+      <input type="hidden" name="note" value="A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful.">
+      <input type="hidden" name="state" value="open">
+    
+        <button type="submit" name="action" value="force">Lock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update" data-confirm="Delete this room?">
+        
+      <input type="hidden" name="index" value="1">
+      <input type="hidden" name="name" value="Staircase">
+      <input type="hidden" name="note" value="A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful.">
+      <input type="hidden" name="state" value="open">
+    
+        <button class="danger" type="submit" name="action" value="delete">Delete</button>
+      </form>
+                </div>
+          <p class="room-card-blurb">A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful.</p>
+          
+          
+    <dialog class="room-dialog" data-owner-only id="room-dialog-1">
+      <div class="dialog-head">
+        <h4>Edit Staircase</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="room-manage" method="post" action="/rooms/update">
+        <input type="hidden" name="index" value="1">
+        <label>
+          <span>Name</span>
+          <input name="name" maxlength="100" value="Staircase" required>
+        </label>
+        <label>
+          <span>State</span>
+          <select name="state"><option value="open" selected>open</option>
+<option value="unlocked">unlocked</option>
+<option value="internally locked">internally locked</option>
+<option value="external lock">external lock</option></select>
+        </label>
+        
+        <label class="wide">
+          <span>Details</span>
+          <textarea name="note" maxlength="4000" required>A dark stone spiral stair climbing up toward the rooms. It feels old, steady, and watchful.</textarea>
+        </label>
+        
+        <div class="room-actions">
+          <button type="submit" name="action" value="save">Save</button>
+          <button type="submit" name="action" value="unlock">Unlock</button>
+          <button type="submit" name="action" value="dormant">Dormant</button>
+          <button type="submit" name="action" value="force">Force Lock</button>
+          <button class="danger" type="submit" name="action" value="delete">Delete</button>
+        </div>
+      </form>
+    </dialog>
+    
+        </article>
+        
+
+        <article class="room-card room-card-manual" data-layout-index="2" data-name="non-dormant doors" data-state="unlocked">
+          
+    <div class="room-card-head">
+      
+      <div class="room-card-title">
+        <div class="room-card-labels">
+          <span class="room-state">unlocked</span>
+          
+        </div>
+        <h3>Non-dormant doors</h3>
+        
+      </div>
+    </div>
+    
+          <div class="room-quick-actions"><button type="button" class="room-edit-open" data-owner-only data-dialog="room-dialog-2">Edit</button>
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="2">
+      <input type="hidden" name="name" value="Non-dormant doors">
+      <input type="hidden" name="note" value="Doors for active or reachable parts stay unlocked. They can be named and described when you are ready.">
+      <input type="hidden" name="state" value="unlocked">
+    
+        <button type="submit" name="action" value="unlock">Unlock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="2">
+      <input type="hidden" name="name" value="Non-dormant doors">
+      <input type="hidden" name="note" value="Doors for active or reachable parts stay unlocked. They can be named and described when you are ready.">
+      <input type="hidden" name="state" value="unlocked">
+    
+        <button type="submit" name="action" value="dormant">Dormant</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="2">
+      <input type="hidden" name="name" value="Non-dormant doors">
+      <input type="hidden" name="note" value="Doors for active or reachable parts stay unlocked. They can be named and described when you are ready.">
+      <input type="hidden" name="state" value="unlocked">
+    
+        <button type="submit" name="action" value="force">Lock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update" data-confirm="Delete this room?">
+        
+      <input type="hidden" name="index" value="2">
+      <input type="hidden" name="name" value="Non-dormant doors">
+      <input type="hidden" name="note" value="Doors for active or reachable parts stay unlocked. They can be named and described when you are ready.">
+      <input type="hidden" name="state" value="unlocked">
+    
+        <button class="danger" type="submit" name="action" value="delete">Delete</button>
+      </form>
+                </div>
+          <p class="room-card-blurb">Doors for active or reachable parts stay unlocked. They can be named and described when you are ready.</p>
+          
+          
+    <dialog class="room-dialog" data-owner-only id="room-dialog-2">
+      <div class="dialog-head">
+        <h4>Edit Non-dormant doors</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="room-manage" method="post" action="/rooms/update">
+        <input type="hidden" name="index" value="2">
+        <label>
+          <span>Name</span>
+          <input name="name" maxlength="100" value="Non-dormant doors" required>
+        </label>
+        <label>
+          <span>State</span>
+          <select name="state"><option value="open">open</option>
+<option value="unlocked" selected>unlocked</option>
+<option value="internally locked">internally locked</option>
+<option value="external lock">external lock</option></select>
+        </label>
+        
+        <label class="wide">
+          <span>Details</span>
+          <textarea name="note" maxlength="4000" required>Doors for active or reachable parts stay unlocked. They can be named and described when you are ready.</textarea>
+        </label>
+        
+        <div class="room-actions">
+          <button type="submit" name="action" value="save">Save</button>
+          <button type="submit" name="action" value="unlock">Unlock</button>
+          <button type="submit" name="action" value="dormant">Dormant</button>
+          <button type="submit" name="action" value="force">Force Lock</button>
+          <button class="danger" type="submit" name="action" value="delete">Delete</button>
+        </div>
+      </form>
+    </dialog>
+    
+        </article>
+        
+
+        <article class="room-card room-card-manual" data-layout-index="3" data-name="dormant doors" data-state="internally locked">
+          
+    <div class="room-card-head">
+      
+      <div class="room-card-title">
+        <div class="room-card-labels">
+          <span class="room-state">internally locked</span>
+          
+        </div>
+        <h3>Dormant doors</h3>
+        
+      </div>
+    </div>
+    
+          <div class="room-quick-actions"><button type="button" class="room-edit-open" data-owner-only data-dialog="room-dialog-3">Edit</button>
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="3">
+      <input type="hidden" name="name" value="Dormant doors">
+      <input type="hidden" name="note" value="Dormant rooms are locked from the inside. No one outside the room can force them open.">
+      <input type="hidden" name="state" value="internally locked">
+    
+        <button type="submit" name="action" value="unlock">Unlock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="3">
+      <input type="hidden" name="name" value="Dormant doors">
+      <input type="hidden" name="note" value="Dormant rooms are locked from the inside. No one outside the room can force them open.">
+      <input type="hidden" name="state" value="internally locked">
+    
+        <button type="submit" name="action" value="dormant">Dormant</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="3">
+      <input type="hidden" name="name" value="Dormant doors">
+      <input type="hidden" name="note" value="Dormant rooms are locked from the inside. No one outside the room can force them open.">
+      <input type="hidden" name="state" value="internally locked">
+    
+        <button type="submit" name="action" value="force">Lock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update" data-confirm="Delete this room?">
+        
+      <input type="hidden" name="index" value="3">
+      <input type="hidden" name="name" value="Dormant doors">
+      <input type="hidden" name="note" value="Dormant rooms are locked from the inside. No one outside the room can force them open.">
+      <input type="hidden" name="state" value="internally locked">
+    
+        <button class="danger" type="submit" name="action" value="delete">Delete</button>
+      </form>
+                </div>
+          <p class="room-card-blurb">Dormant rooms are locked from the inside. No one outside the room can force them open.</p>
+          
+          
+    <dialog class="room-dialog" data-owner-only id="room-dialog-3">
+      <div class="dialog-head">
+        <h4>Edit Dormant doors</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="room-manage" method="post" action="/rooms/update">
+        <input type="hidden" name="index" value="3">
+        <label>
+          <span>Name</span>
+          <input name="name" maxlength="100" value="Dormant doors" required>
+        </label>
+        <label>
+          <span>State</span>
+          <select name="state"><option value="open">open</option>
+<option value="unlocked">unlocked</option>
+<option value="internally locked" selected>internally locked</option>
+<option value="external lock">external lock</option></select>
+        </label>
+        
+        <label class="wide">
+          <span>Details</span>
+          <textarea name="note" maxlength="4000" required>Dormant rooms are locked from the inside. No one outside the room can force them open.</textarea>
+        </label>
+        
+        <div class="room-actions">
+          <button type="submit" name="action" value="save">Save</button>
+          <button type="submit" name="action" value="unlock">Unlock</button>
+          <button type="submit" name="action" value="dormant">Dormant</button>
+          <button type="submit" name="action" value="force">Force Lock</button>
+          <button class="danger" type="submit" name="action" value="delete">Delete</button>
+        </div>
+      </form>
+    </dialog>
+    
+        </article>
+        
+
+        <article class="room-card room-card-manual" data-layout-index="4" data-name="force-dormant doors" data-state="external lock">
+          
+    <div class="room-card-head">
+      
+      <div class="room-card-title">
+        <div class="room-card-labels">
+          <span class="room-state">external lock</span>
+          
+        </div>
+        <h3>Force-dormant doors</h3>
+        
+      </div>
+    </div>
+    
+          <div class="room-quick-actions"><button type="button" class="room-edit-open" data-owner-only data-dialog="room-dialog-4">Edit</button>
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="4">
+      <input type="hidden" name="name" value="Force-dormant doors">
+      <input type="hidden" name="note" value="Old-style external locks mark doors that need extra boundaries, time, or protection before opening.">
+      <input type="hidden" name="state" value="external lock">
+    
+        <button type="submit" name="action" value="unlock">Unlock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="4">
+      <input type="hidden" name="name" value="Force-dormant doors">
+      <input type="hidden" name="note" value="Old-style external locks mark doors that need extra boundaries, time, or protection before opening.">
+      <input type="hidden" name="state" value="external lock">
+    
+        <button type="submit" name="action" value="dormant">Dormant</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update">
+        
+      <input type="hidden" name="index" value="4">
+      <input type="hidden" name="name" value="Force-dormant doors">
+      <input type="hidden" name="note" value="Old-style external locks mark doors that need extra boundaries, time, or protection before opening.">
+      <input type="hidden" name="state" value="external lock">
+    
+        <button type="submit" name="action" value="force">Lock</button>
+      </form>
+                
+      <form class="quick-form" data-owner-only method="post" action="/rooms/update" data-confirm="Delete this room?">
+        
+      <input type="hidden" name="index" value="4">
+      <input type="hidden" name="name" value="Force-dormant doors">
+      <input type="hidden" name="note" value="Old-style external locks mark doors that need extra boundaries, time, or protection before opening.">
+      <input type="hidden" name="state" value="external lock">
+    
+        <button class="danger" type="submit" name="action" value="delete">Delete</button>
+      </form>
+                </div>
+          <p class="room-card-blurb">Old-style external locks mark doors that need extra boundaries, time, or protection before opening.</p>
+          
+          
+    <dialog class="room-dialog" data-owner-only id="room-dialog-4">
+      <div class="dialog-head">
+        <h4>Edit Force-dormant doors</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="room-manage" method="post" action="/rooms/update">
+        <input type="hidden" name="index" value="4">
+        <label>
+          <span>Name</span>
+          <input name="name" maxlength="100" value="Force-dormant doors" required>
+        </label>
+        <label>
+          <span>State</span>
+          <select name="state"><option value="open">open</option>
+<option value="unlocked">unlocked</option>
+<option value="internally locked">internally locked</option>
+<option value="external lock" selected>external lock</option></select>
+        </label>
+        
+        <label class="wide">
+          <span>Details</span>
+          <textarea name="note" maxlength="4000" required>Old-style external locks mark doors that need extra boundaries, time, or protection before opening.</textarea>
+        </label>
+        
+        <div class="room-actions">
+          <button type="submit" name="action" value="save">Save</button>
+          <button type="submit" name="action" value="unlock">Unlock</button>
+          <button type="submit" name="action" value="dormant">Dormant</button>
+          <button type="submit" name="action" value="force">Force Lock</button>
+          <button class="danger" type="submit" name="action" value="delete">Delete</button>
+        </div>
+      </form>
+    </dialog>
+    
+        </article>
+        
+        </div>
+        
+    <nav class="layout-pagination" id="rooms-pagination" hidden aria-label="Page navigation">
+      <button type="button" class="page-btn" data-page="prev">Previous</button>
+      <span class="page-status" id="rooms-page-status">Page 1 of 1</span>
+      <button type="button" class="page-btn" data-page="next">Next</button>
+    </nav>
+    
+      </section>
+
+      <section class="tab-panel" id="notes" role="tabpanel" hidden>
+        <div class="section-heading">
+          <h2>Private Notes</h2>
+          <p>Keep only what feels okay to write down. This is a protected space, not a demand to document everything.</p>
+        </div>
+        <textarea id="private-notes" spellcheck="true" placeholder="Draft system notes here. Saved browser-side only for now."></textarea>
+      </section>
+
+      
+      <section class="tab-panel" id="customize" role="tabpanel" hidden data-owner-only>
+        <div class="section-heading">
+          <h2>Customize</h2>
+          <p>Rename your space and tune colors. Changes save in this browser only — each visitor keeps their own look unless you share the same device.</p>
+        </div>
+        <form class="customize-form" id="customize-form" autocomplete="off">
+          <fieldset class="customize-section">
+            <legend>Site name &amp; text</legend>
+            <div class="customize-grid">
+              <label>
+                <span>Site name</span>
+                <input type="text" name="siteName" data-customize-field="siteName" maxlength="80" placeholder="The Mansion">
+              </label>
+              <label>
+                <span>Locked login title</span>
+                <input type="text" name="siteNameLocked" data-customize-field="siteNameLocked" maxlength="80" placeholder="The mansion is locked.">
+              </label>
+              <label>
+                <span>Dashboard eyebrow</span>
+                <input type="text" name="eyebrow" data-customize-field="eyebrow" maxlength="60" placeholder="Headspace directory">
+              </label>
+              <label>
+                <span>Login eyebrow</span>
+                <input type="text" name="loginEyebrow" data-customize-field="loginEyebrow" maxlength="60" placeholder="Private system space">
+              </label>
+              <label class="customize-wide">
+                <span>Dashboard intro</span>
+                <textarea name="intro" data-customize-field="intro" maxlength="400" rows="3" placeholder="A private room system for the mansion headspace..."></textarea>
+              </label>
+              <label class="customize-wide">
+                <span>Login intro</span>
+                <textarea name="loginIntro" data-customize-field="loginIntro" maxlength="200" rows="2" placeholder="Enter the house password to continue."></textarea>
+              </label>
+              <label class="customize-wide">
+                <span>Login hero caption</span>
+                <input type="text" name="loginCaption" data-customize-field="loginCaption" maxlength="120" placeholder="The headspace stretches wider than it should.">
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="customize-section">
+            <legend>Colors</legend>
+            <div class="customize-color-grid">
+              <label class="customize-color">
+                <span>Accent gold</span>
+                <input type="color" name="gold" data-customize-color="gold" value="#d4a853">
+              </label>
+              <label class="customize-color">
+                <span>Accent highlight</span>
+                <input type="color" name="goldBright" data-customize-color="goldBright" value="#e8c878">
+              </label>
+              <label class="customize-color">
+                <span>Unlocked / open</span>
+                <input type="color" name="moss" data-customize-color="moss" value="#6d9470">
+              </label>
+              <label class="customize-color">
+                <span>Dormant</span>
+                <input type="color" name="stone" data-customize-color="stone" value="#7a8a94">
+              </label>
+              <label class="customize-color">
+                <span>Force-dormant</span>
+                <input type="color" name="red" data-customize-color="red" value="#b85c5c">
+              </label>
+              <label class="customize-color">
+                <span>Warm glow</span>
+                <input type="color" name="ember" data-customize-color="ember" value="#c45a2c">
+              </label>
+              <label class="customize-color">
+                <span>Main text</span>
+                <input type="color" name="ink" data-customize-color="ink" value="#f4efe6">
+              </label>
+              <label class="customize-color">
+                <span>Muted text</span>
+                <input type="color" name="muted" data-customize-color="muted" value="#c4b8aa">
+              </label>
+            </div>
+          </fieldset>
+          <div class="customize-actions">
+            <button type="button" class="customize-reset" id="customize-reset">Reset to defaults</button>
+            <p class="customize-hint">Changes apply instantly and persist in local storage.</p>
+          </div>
+        </form>
+      </section>
+    
+
+      
+    <dialog class="room-dialog" id="add-room-dialog" data-owner-only>
+      <div class="dialog-head">
+        <h4>Add a new room</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="dialog-form add-room" method="post" action="/rooms">
+        <label for="room-name">Room name</label>
+        <input id="room-name" name="name" maxlength="100" required>
+        <label for="room-state">Room state</label>
+        <select id="room-state" name="state">
+          <option value="open">open</option>
+<option value="unlocked" selected>unlocked</option>
+<option value="internally locked">internally locked</option>
+<option value="external lock">external lock</option>
+        </select>
+        <label for="room-note">Note</label>
+        <textarea id="room-note" name="note" maxlength="4000" required></textarea>
+        <button type="submit">Add room</button>
+      </form>
+    </dialog>
+    
+      
+    <dialog class="room-dialog" id="pk-import-dialog" data-owner-only>
+      <div class="dialog-head">
+        <h4>Import from PluralKit</h4>
+        <button type="button" class="dialog-close" aria-label="Close">×</button>
+      </div>
+      <form class="dialog-form pk-import" method="post" action="/pluralkit/import" autocomplete="off">
+        <label for="pk-token">PluralKit token</label>
+        <input id="pk-token" name="token" type="password" required>
+        <label for="pk-system">System ref</label>
+        <input id="pk-system" name="system_ref" value="@me" required>
+        <p class="pk-edit-hint">Your token is used for this import only and is not saved.</p>
+        <button type="submit">Import alters</button>
+      </form>
+    </dialog>
+    
+    </section>
+    </div>
+  </main>
+  <script src="mansion/mansion-auth.js?v=20260706-01"></script>
+  <script src="mansion/mansion-rooms.js?v=20260706-01"></script>
+  <script src="mansion/static/app.js?v=20260706-01"></script>
+</body>
+</html>
