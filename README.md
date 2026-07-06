@@ -1,83 +1,216 @@
-# Mansion — headspace room map (template)
+# Mansion — headspace room map
 
-A private, password-gated headspace mansion for DID/OSDD systems. Map rooms, set lock states, and optionally import alters from PluralKit.
+A private, password-protected room map for DID/OSDD headspaces. Name your rooms, set lock states (open, unlocked, dormant, force-dormant), take private notes, and optionally import alters from PluralKit.
 
-## What you get
+This repo is a **starter template**. Clone it, make it yours, and host it privately. Your real room data and passwords should stay in **your** copy — not in a public fork.
 
-- Login with owner vs view-only passwords
-- Room map and room list with state filters
-- Room states: open, unlocked, dormant (internally locked), force-dormant (external lock)
-- Browser-side edits (saved in localStorage on static hosting)
-- Optional PluralKit import when running the Python server locally
+---
 
-## Quick start
+## What you need
 
-### 1. Set your passwords
+- **Git** — to download and update the project
+- **Python 3** — to build the site and set passwords (no extra packages required)
+- A place to host the built files (GitHub Pages, Netlify, Cloudflare Pages, your own server, or just open locally)
 
-```bash
-python3 scripts/hash-password.py owner
-python3 scripts/hash-password.py viewer
-```
+---
 
-Copy the output into `.sharing.env` (create from `.sharing.env.example`), then:
+## Get your own copy
+
+### Option A — Clone with Git (recommended)
 
 ```bash
-python3 scripts/update-auth-hashes.py
+git clone https://github.com/YOUR_USERNAME/mansion-blueprint.git
+cd mansion-blueprint
 ```
 
-Default demo passwords (change these before going live):
+Replace the URL with wherever you host the repo (your fork, a friend's template, etc.).
 
-| Role | Demo password |
-|------|----------------|
-| Owner | `changeme` |
-| View-only | `view-only` |
+### Option B — Download without Git
 
-### 2. Add your rooms (optional)
+1. Click **Code → Download ZIP** on GitHub
+2. Unzip the folder
+3. Open a terminal in that folder for the steps below
 
-Put your room list at `mansion/rooms.json`, or skip this to use the five default starter rooms (Foyer, Staircase, etc.).
+> **Tip:** Fork the repo on GitHub first if you want your own copy you can push changes to, without touching the original template.
 
-**Do not commit real room data to a public repo.**
+---
 
-### 3. Build the static page
+## Try it locally in 2 minutes
+
+The fastest way to see it working — demo passwords included:
 
 ```bash
 python3 scripts/build-mansion-page.py
 ```
 
-This writes `mansion.html` (gitignored). Upload `mansion.html`, the `mansion/` folder, and nothing from `.sharing.env` to any static host (GitHub Pages, Cloudflare Pages, Netlify, etc.).
+Then open `mansion.html` in your browser (double-click it, or drag it into a browser window).
 
-### 4. Open it
+| Role | Password | What you can do |
+|------|----------|-----------------|
+| Owner | `changeme` | Add, edit, lock/unlock rooms, customize colors & name, edit notes |
+| View-only | `view-only` | Look around — no editing |
 
-Deploy `mansion.html` at your site root or subpath and open it in a browser.
+**Change these passwords before sharing the site with anyone.**
 
-## Local Python server (optional)
+---
 
-For server-side sessions and PluralKit import:
+## Set up for real use
+
+### Step 1 — Choose your passwords
+
+Pick two passwords:
+
+- **Owner** — full control (you, a host alter, etc.)
+- **View-only** — trusted people who can look but not edit
+
+Generate secure hashes:
+
+```bash
+python3 scripts/hash-password.py owner
+# Enter your owner password when prompted — copy the long hash it prints
+
+python3 scripts/hash-password.py viewer
+# Same for your view-only password
+```
+
+Create your secrets file:
 
 ```bash
 cp .sharing.env.example .sharing.env
-# fill in hashes, then:
+```
+
+Open `.sharing.env` and paste the hashes:
+
+```env
+OWNER_PASSWORD_HASH=pbkdf2_sha256$...
+VIEWER_PASSWORD_HASH=pbkdf2_sha256$...
+```
+
+Apply them to the static site:
+
+```bash
+python3 scripts/update-auth-hashes.py
+```
+
+### Step 2 — Add your rooms (optional)
+
+Edit `mansion/rooms.json` with your room list, or skip this to keep the five starter rooms (Foyer, Staircase, etc.).
+
+Example room entry:
+
+```json
+{
+  "name": "Library",
+  "state": "unlocked",
+  "note": "Quiet room for reading and co-regulation."
+}
+```
+
+**Room states:** `open` · `unlocked` · `internally locked` (dormant) · `external lock` (force-dormant)
+
+### Step 3 — Build the site
+
+```bash
+python3 scripts/build-mansion-page.py
+```
+
+This creates `mansion.html` with your rooms baked in.
+
+### Step 4 — Deploy
+
+Upload these to any static host:
+
+- `mansion.html`
+- the entire `mansion/` folder (scripts, styles, auth)
+
+**Do not upload** `.sharing.env` — that file stays on your machine only.
+
+Works on GitHub Pages, Netlify, Cloudflare Pages, Neocities, or any web server that serves HTML files.
+
+---
+
+## Customize the look
+
+After signing in with the **owner** password, open the **Customize** tab to:
+
+- Rename the site (replace "The Mansion" with your own name)
+- Edit login text and taglines
+- Change accent and state colors
+
+Changes save in your browser's local storage — great for personalizing your copy on your device.
+
+---
+
+## Run the Python server (optional)
+
+Use this if you want PluralKit import or traditional server sessions instead of the all-in-one static file.
+
+```bash
+cp .sharing.env.example .sharing.env
+# Fill in your password hashes, then:
+
 export $(grep -v '^#' .sharing.env | xargs)
 COOKIE_SECURE=0 python3 -m mansion.app --host 127.0.0.1 --port 8000
 ```
 
-Or from the `mansion/` package:
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-```bash
-cd mansion && python3 app.py
-```
+PluralKit import is available from the **Rooms** tab when running this server.
 
-## Embed in an existing site
+---
 
-Copy `mansion.html` plus the `mansion/` folder into your site repo. Link to `mansion.html` from your nav. If your site lives in a subfolder, adjust paths in `scripts/build-mansion-page.py` (`static_path`).
+## Embed in an existing website
 
-## What never goes in git
+1. Run `python3 scripts/build-mansion-page.py`
+2. Copy `mansion.html` and the `mansion/` folder into your site
+3. Link to `mansion.html` from your navigation
 
-- `.sharing.env` — password hashes
-- `mansion/rooms.json` — your room / alter data
-- `mansion.html` — built output (may contain embedded room JSON)
-- PluralKit tokens (never stored by this app)
+If your site lives in a subfolder (e.g. `yoursite.com/headspace/`), edit the `static_path` function in `scripts/build-mansion-page.py` so asset paths point to the right place, then rebuild.
+
+---
+
+## How editing works
+
+| Hosting mode | Room edits | Notes | Customize |
+|--------------|------------|-------|-----------|
+| Static (`mansion.html`) | Saved in browser localStorage | Saved in browser | Saved in browser |
+| Python server | Saved to `mansion/data/rooms.json` | Browser localStorage | Browser localStorage |
+
+On static hosting, room changes persist in **that browser only**. Rebuild and redeploy to share room updates across devices.
+
+---
+
+## Keep private — never commit these
+
+| File | Why |
+|------|-----|
+| `.sharing.env` | Your password hashes |
+| `mansion/rooms.json` | Your personal room / alter data |
+| `mansion.html` | Built output (may embed your room list) |
+| PluralKit tokens | Never stored — used once per import |
+
+These are already listed in `.gitignore`. Double-check before `git push`.
+
+---
+
+## Troubleshooting
+
+**"That password did not open the door."**
+- On the static site, make sure you ran `update-auth-hashes.py` after editing `.sharing.env`
+- Default demo passwords are `changeme` / `view-only` until you change them
+
+**Page looks unstyled or broken**
+- Keep `mansion.html` and the `mansion/` folder together — don't upload only the HTML file
+- If hosted in a subfolder, rebuild with corrected paths in `build-mansion-page.py`
+
+**Room edits disappeared on another device**
+- Expected on static hosting — edits are per-browser. Rebuild with updated `rooms.json` to sync everywhere.
+
+**Python command not found**
+- Try `python` instead of `python3`, or install Python 3 from [python.org](https://www.python.org/downloads/)
+
+---
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Use freely, modify, host your own. No warranty.
+MIT — see [LICENSE](LICENSE). Use freely, modify, and host your own. No warranty.
