@@ -66,6 +66,7 @@ def main() -> None:
   <meta name="robots" content="noindex, nofollow">
   <title>The Mansion</title>
   <link rel="stylesheet" href="{static_path("/static/styles.css")}?v={mansion.STATIC_VERSION}">
+  <script src="{static_path("/static/mansion-customize.js")}?v={mansion.STATIC_VERSION}"></script>
 </head>
 <body>
   <script id="mansion-rooms-data" type="application/json">{rooms_json}</script>
