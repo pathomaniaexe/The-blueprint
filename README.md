@@ -4,6 +4,36 @@ A private, password-protected room map for DID/OSDD headspaces. Name your rooms,
 
 This repo is a **starter template**. Clone it, make it yours, and host it privately. Your real room data and passwords should stay in **your** copy — not in a public fork.
 
+![The Mansion dashboard with room stats and tab navigation](https://cdn.discordapp.com/attachments/1523097457687265493/1523826769428349069/k2jx2ktpnr.png?ex=6a4d85c5&is=6a4c3445&hm=a44c4e54c12c99b5982570549feb3f13c14588ddc090849dd6da527704e7609d&)
+
+---
+
+## Screenshots
+
+### Map — layout overview
+
+Sort, search, and filter rooms on a visual grid.
+
+![Map tab showing room layout grid with search and state filters](https://cdn.discordapp.com/attachments/1523097457687265493/1523826768883224766/xt3h9pz8f3.png?ex=6a4d85c5&is=6a4c3445&hm=f32ba3d2a6225a57d3e5676efed25650addf789e8d71f4045741a1d62d1923a5&)
+
+### Rooms — edit, lock, and import
+
+Manage each room’s state, add new rooms, or import from PluralKit.
+
+![Rooms tab with state legend, room cards, and quick actions](https://cdn.discordapp.com/attachments/1523097457687265493/1523826768253943918/dmntwhh61r.png?ex=6a4d85c4&is=6a4c3444&hm=21edc62088be9de15ae5dbe818dd3d91ba07fb6731335366beb7a536ab58c701&)
+
+### Notes — private scratch space
+
+Browser-side notes that stay on your device.
+
+![Notes tab with private textarea](https://cdn.discordapp.com/attachments/1523097457687265493/1523826767104708801/k9dn9n5d8b.png?ex=6a4d85c4&is=6a4c3444&hm=64f0c470af556879c29be2358c109e1a3da8222bf6eb70672def49269cb1e5cd&)
+
+### Customize — make it yours
+
+Rename the site, edit login text, and pick your own colors.
+
+![Customize tab with site name fields and color pickers](https://cdn.discordapp.com/attachments/1523097457687265493/1523826767624933539/4r4fbtf336.png?ex=6a4d85c4&is=6a4c3444&hm=c1c1151eac687a7840afd342060f0a57073bdf8fa18b0c8dc7724ffc9cd4ab08&)
+
 ---
 
 ## What you need
@@ -131,7 +161,7 @@ Works on GitHub Pages, Netlify, Cloudflare Pages, Neocities, or any web server t
 
 ## Customize the look
 
-After signing in with the **owner** password, open the **Customize** tab to:
+After signing in with the **owner** password, open the **Customize** tab (see screenshot above) to:
 
 - Rename the site (replace "The Mansion" with your own name)
 - Edit login text and taglines
