@@ -4,7 +4,7 @@ A private, password-protected room map for DID/OSDD headspaces. Name your rooms,
 
 This repo is a **starter template**. Clone it, make it yours, and host it privately. Your real room data and passwords should stay in **your** copy — not in a public fork.
 
-![The Mansion dashboard with room stats and tab navigation](https://cdn.discordapp.com/attachments/1523097457687265493/1523826769428349069/k2jx2ktpnr.png?ex=6a4d85c5&is=6a4c3445&hm=a44c4e54c12c99b5982570549feb3f13c14588ddc090849dd6da527704e7609d&)
+![The Mansion dashboard with room stats and tab navigation](https://media.discordapp.net/attachments/1523097457687265493/1523826769428349069/k2jx2ktpnr.png?ex=6a556ec5&is=6a541d45&hm=47d12fa737c1e3b4b7d9312cabcf81b08eed0cab2c8efd97992bc5154712a601&=&format=webp&quality=lossless&width=2636&height=1162)
 
 ---
 
@@ -14,19 +14,19 @@ This repo is a **starter template**. Clone it, make it yours, and host it privat
 
 Sort, search, and filter rooms on a visual grid.
 
-![Map tab showing room layout grid with search and state filters](https://cdn.discordapp.com/attachments/1523097457687265493/1523826768883224766/xt3h9pz8f3.png?ex=6a4d85c5&is=6a4c3445&hm=f32ba3d2a6225a57d3e5676efed25650addf789e8d71f4045741a1d62d1923a5&)
+![Map tab showing room layout grid with search and state filters](https://media.discordapp.net/attachments/1523097457687265493/1523826768883224766/xt3h9pz8f3.png?ex=6a556ec5&is=6a541d45&hm=4dba3d369272e39f1fcdb647fe93e572f99b029653bd378087b1aae8513a5043&=&format=webp&quality=lossless&width=2636&height=1166)
 
 ### Rooms — edit, lock, and import
 
 Manage each room’s state, add new rooms, or import from PluralKit.
 
-![Rooms tab with state legend, room cards, and quick actions](https://cdn.discordapp.com/attachments/1523097457687265493/1523826768253943918/dmntwhh61r.png?ex=6a4d85c4&is=6a4c3444&hm=21edc62088be9de15ae5dbe818dd3d91ba07fb6731335366beb7a536ab58c701&)
+![Rooms tab with state legend, room cards, and quick actions](https://media.discordapp.net/attachments/1523097457687265493/1523826768253943918/dmntwhh61r.png?ex=6a556ec4&is=6a541d44&hm=4e9d01aefc5724879589bca572592c1b0f332d74b8b203f77cfa4c8b9eb1baec&=&format=webp&quality=lossless&width=2416&height=1400)
 
 ### Notes — private scratch space
 
 Browser-side notes that stay on your device.
 
-![Notes tab with private textarea](https://cdn.discordapp.com/attachments/1523097457687265493/1523826767104708801/k9dn9n5d8b.png?ex=6a4d85c4&is=6a4c3444&hm=64f0c470af556879c29be2358c109e1a3da8222bf6eb70672def49269cb1e5cd&)
+![Notes tab with private text area](https://media.discordapp.net/attachments/1523097457687265493/1523826767624933539/4r4fbtf336.png?ex=6a556ec4&is=6a541d44&hm=b74ac524646b65bd596fadec052a4131ffb4727c3c28ef65b3c1c2445f2da010&=&format=webp&quality=lossless&width=2636&height=1192)
 
 ### Customize — make it yours
 
