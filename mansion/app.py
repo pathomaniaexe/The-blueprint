@@ -29,7 +29,7 @@ LOCKOUT_SECONDS = 60 * 15
 PBKDF2_ITERATIONS = 390_000
 PLURALKIT_API = "https://api.pluralkit.me/v2"
 USER_AGENT = "did-osdd-personal-site/1.0"
-STATIC_VERSION = "20260705-16"
+STATIC_VERSION = "20260712-01"
 MAP_PAGE_SIZE = 48
 ROOMS_PAGE_SIZE = 24
 
@@ -134,9 +134,6 @@ def save_rooms() -> None:
         return
     DATA_DIR.mkdir(exist_ok=True)
     ROOMS_FILE.write_text(json.dumps(ROOMS, indent=2), encoding="utf-8")
-
-
-ROOMS: list[dict[str, object]] = []
 
 
 def now() -> float:
@@ -296,6 +293,7 @@ def render_page(
   <meta name="robots" content="noindex, nofollow">
   <title>{html.escape(title)}</title>
   <link rel="stylesheet" href="{html.escape(app_path('/static/styles.css'))}?v={STATIC_VERSION}">
+  <script src="{html.escape(app_path('/static/mansion-customize.js'))}?v={STATIC_VERSION}"></script>
 </head>
 <body>
   <div class="ambient"></div>
@@ -378,13 +376,13 @@ def login_page(error: str = "") -> bytes:
           <path d="M360 300 Q390 272 420 300" fill="#12100e" stroke="#1e1a17" stroke-width="1"/>
         </svg>
         <div class="login-hero-fog"></div>
-        <p class="login-hero-caption">The headspace stretches wider than it should.</p>
+        <p class="login-hero-caption" data-customize="loginCaption">The headspace stretches wider than it should.</p>
       </div>
       <div class="login-panel-wrap">
         <form class="login-panel" method="post" action="{app_path('/login')}" autocomplete="off">
-          <p class="eyebrow">Private system space</p>
-          <h1>The mansion is locked.</h1>
-          <p class="intro">Enter the house password to continue.</p>
+          <p class="eyebrow" data-customize="loginEyebrow">Private system space</p>
+          <h1 data-customize="siteNameLocked">The mansion is locked.</h1>
+          <p class="intro" data-customize="loginIntro">Enter the house password to continue.</p>
           {error_html}
           <label for="password">Password</label>
           <input id="password" name="password" type="password" required autofocus autocomplete="current-password">
@@ -911,7 +909,7 @@ def member_to_room(member: dict[str, object]) -> dict[str, object] | None:
     }
 
 
-def upsert_pk_rooms(members: list[dict[str, object]]) -> tuple[int, int]:
+def upsert_pk_rooms(members: list[dict[str, object]]) -> tuple[int, int, int]:
     existing_by_uuid = {}
     for index, room in enumerate(ROOMS):
         pk = room.get("pk")
@@ -1057,6 +1055,95 @@ def add_room_dialog(role: str) -> str:
     """
 
 
+def customize_panel(role: str) -> str:
+    if not can_manage_rooms(role):
+        return ""
+    return """
+      <section class="tab-panel" id="customize" role="tabpanel" hidden data-owner-only>
+        <div class="section-heading">
+          <h2>Customize</h2>
+          <p>Rename your space and tune colors. Changes save in this browser only — each visitor keeps their own look unless you share the same device.</p>
+        </div>
+        <form class="customize-form" id="customize-form" autocomplete="off">
+          <fieldset class="customize-section">
+            <legend>Site name &amp; text</legend>
+            <div class="customize-grid">
+              <label>
+                <span>Site name</span>
+                <input type="text" name="siteName" data-customize-field="siteName" maxlength="80" placeholder="The Mansion">
+              </label>
+              <label>
+                <span>Locked login title</span>
+                <input type="text" name="siteNameLocked" data-customize-field="siteNameLocked" maxlength="80" placeholder="The mansion is locked.">
+              </label>
+              <label>
+                <span>Dashboard eyebrow</span>
+                <input type="text" name="eyebrow" data-customize-field="eyebrow" maxlength="60" placeholder="Headspace directory">
+              </label>
+              <label>
+                <span>Login eyebrow</span>
+                <input type="text" name="loginEyebrow" data-customize-field="loginEyebrow" maxlength="60" placeholder="Private system space">
+              </label>
+              <label class="customize-wide">
+                <span>Dashboard intro</span>
+                <textarea name="intro" data-customize-field="intro" maxlength="400" rows="3" placeholder="A private room system for the mansion headspace..."></textarea>
+              </label>
+              <label class="customize-wide">
+                <span>Login intro</span>
+                <textarea name="loginIntro" data-customize-field="loginIntro" maxlength="200" rows="2" placeholder="Enter the house password to continue."></textarea>
+              </label>
+              <label class="customize-wide">
+                <span>Login hero caption</span>
+                <input type="text" name="loginCaption" data-customize-field="loginCaption" maxlength="120" placeholder="The headspace stretches wider than it should.">
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="customize-section">
+            <legend>Colors</legend>
+            <div class="customize-color-grid">
+              <label class="customize-color">
+                <span>Accent gold</span>
+                <input type="color" name="gold" data-customize-color="gold" value="#d4a853">
+              </label>
+              <label class="customize-color">
+                <span>Accent highlight</span>
+                <input type="color" name="goldBright" data-customize-color="goldBright" value="#e8c878">
+              </label>
+              <label class="customize-color">
+                <span>Unlocked / open</span>
+                <input type="color" name="moss" data-customize-color="moss" value="#6d9470">
+              </label>
+              <label class="customize-color">
+                <span>Dormant</span>
+                <input type="color" name="stone" data-customize-color="stone" value="#7a8a94">
+              </label>
+              <label class="customize-color">
+                <span>Force-dormant</span>
+                <input type="color" name="red" data-customize-color="red" value="#b85c5c">
+              </label>
+              <label class="customize-color">
+                <span>Warm glow</span>
+                <input type="color" name="ember" data-customize-color="ember" value="#c45a2c">
+              </label>
+              <label class="customize-color">
+                <span>Main text</span>
+                <input type="color" name="ink" data-customize-color="ink" value="#f4efe6">
+              </label>
+              <label class="customize-color">
+                <span>Muted text</span>
+                <input type="color" name="muted" data-customize-color="muted" value="#c4b8aa">
+              </label>
+            </div>
+          </fieldset>
+          <div class="customize-actions">
+            <button type="button" class="customize-reset" id="customize-reset">Reset to defaults</button>
+            <p class="customize-hint">Changes apply instantly and persist in local storage.</p>
+          </div>
+        </form>
+      </section>
+    """
+
+
 def pk_import_dialog(role: str) -> str:
     if not can_manage_rooms(role):
         return ""
@@ -1098,10 +1185,16 @@ def dashboard_page(role: str, rooms_page: int = 1, map_page: int = 1) -> bytes:
         if role == "owner"
         else '<textarea id="private-notes" readonly placeholder="View-only login: notes editing is locked for this password."></textarea>'
     )
-    tabs = """
+    customize_tab = (
+        '<button class="tab" type="button" data-tab="customize" data-owner-only>Customize</button>'
+        if can_manage_rooms(role)
+        else ""
+    )
+    tabs = f"""
         <button class="tab active" type="button" data-tab="map">Map</button>
         <button class="tab" type="button" data-tab="rooms">Rooms</button>
         <button class="tab" type="button" data-tab="notes">Notes</button>
+        {customize_tab}
     """
 
 
@@ -1109,11 +1202,11 @@ def dashboard_page(role: str, rooms_page: int = 1, map_page: int = 1) -> bytes:
     <section class="house">
       <div class="house-hero">
         <div>
-          <p class="eyebrow">Headspace directory</p>
-          <h1>The Mansion</h1>
-          <p class="intro">A private room system for the mansion headspace. Rooms can be added, edited, locked, unlocked, and imported from PluralKit with dev permissions.</p>
+          <p class="eyebrow" data-customize="eyebrow">Headspace directory</p>
+          <h1 data-customize="siteName">The Mansion</h1>
+          <p class="intro" data-customize="intro">A private room system for the mansion headspace. Rooms can be added, edited, locked, unlocked, and imported from PluralKit with dev permissions.</p>
         </div>
-        <div class="house-summary" aria-label="Current mansion summary">
+        <div class="house-summary" data-customize-aria="summaryLabel" aria-label="Current mansion summary">
           <div><strong>{len(ROOMS)}</strong><span>Total rooms</span></div>
           <div><strong>{sum(1 for room in ROOMS if room.get("state") in ("open", "unlocked"))}</strong><span>Open or unlocked</span></div>
           <div><strong>{sum(1 for room in ROOMS if room.get("state") == "internally locked")}</strong><span>Dormant</span></div>
@@ -1121,7 +1214,7 @@ def dashboard_page(role: str, rooms_page: int = 1, map_page: int = 1) -> bytes:
         </div>
       </div>
 
-      <nav class="tabs" aria-label="Mansion sections">
+      <nav class="tabs" data-customize-aria="tabsLabel" aria-label="Mansion sections">
         {tabs}
       </nav>
 
@@ -1160,6 +1253,8 @@ def dashboard_page(role: str, rooms_page: int = 1, map_page: int = 1) -> bytes:
         </div>
         {notes_access}
       </section>
+
+      {customize_panel(role)}
 
       {add_room_dialog(role)}
       {pk_import_dialog(role)}
