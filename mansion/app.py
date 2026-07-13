@@ -29,7 +29,7 @@ LOCKOUT_SECONDS = 60 * 15
 PBKDF2_ITERATIONS = 390_000
 PLURALKIT_API = "https://api.pluralkit.me/v2"
 USER_AGENT = "did-osdd-personal-site/1.0"
-STATIC_VERSION = "20260712-01"
+STATIC_VERSION = "20260713-01"
 MAP_PAGE_SIZE = 48
 ROOMS_PAGE_SIZE = 24
 
@@ -1062,7 +1062,7 @@ def customize_panel(role: str) -> str:
       <section class="tab-panel" id="customize" role="tabpanel" hidden data-owner-only>
         <div class="section-heading">
           <h2>Customize</h2>
-          <p>Rename your space and tune colors. Changes save in this browser only — each visitor keeps their own look unless you share the same device.</p>
+          <p>Rename your space, tune colors, layout, and what shows on the dashboard. Changes save in this browser only.</p>
         </div>
         <form class="customize-form" id="customize-form" autocomplete="off">
           <fieldset class="customize-section">
@@ -1133,11 +1133,67 @@ def customize_panel(role: str) -> str:
                 <span>Muted text</span>
                 <input type="color" name="muted" data-customize-color="muted" value="#c4b8aa">
               </label>
+              <label class="customize-color">
+                <span>Dim text</span>
+                <input type="color" name="dim" data-customize-color="dim" value="#8a7f74">
+              </label>
+              <label class="customize-color">
+                <span>Page background</span>
+                <input type="color" name="bg" data-customize-color="bg" value="#070605">
+              </label>
+              <label class="customize-color">
+                <span>Panel surface</span>
+                <input type="color" name="panel" data-customize-color="panel" value="#161311">
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="customize-section">
+            <legend>Layout &amp; display</legend>
+            <div class="customize-grid">
+              <label>
+                <span>Text size</span>
+                <select name="fontScale" data-customize-field="fontScale">
+                  <option value="0.9">Small</option>
+                  <option value="1">Default</option>
+                  <option value="1.1">Large</option>
+                  <option value="1.2">Extra large</option>
+                </select>
+              </label>
+              <label>
+                <span>Density</span>
+                <select name="density" data-customize-field="density">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </label>
+              <label class="customize-check">
+                <input type="checkbox" name="showSummary" data-customize-toggle="showSummary" checked>
+                <span>Show room summary cards</span>
+              </label>
+              <label class="customize-check">
+                <input type="checkbox" name="showStateLegend" data-customize-toggle="showStateLegend" checked>
+                <span>Show state legend on Rooms tab</span>
+              </label>
+              <label class="customize-check">
+                <input type="checkbox" name="showMapPositions" data-customize-toggle="showMapPositions" checked>
+                <span>Show map position numbers</span>
+              </label>
+              <label class="customize-check">
+                <input type="checkbox" name="showLoginArt" data-customize-toggle="showLoginArt" checked>
+                <span>Show login mansion illustration</span>
+              </label>
+              <label class="customize-check">
+                <input type="checkbox" name="reduceMotion" data-customize-toggle="reduceMotion">
+                <span>Reduce motion</span>
+              </label>
             </div>
           </fieldset>
           <div class="customize-actions">
             <button type="button" class="customize-reset" id="customize-reset">Reset to defaults</button>
-            <p class="customize-hint">Changes apply instantly and persist in local storage.</p>
+            <button type="button" class="customize-secondary" id="customize-export">Export theme</button>
+            <button type="button" class="customize-secondary" id="customize-import">Import theme</button>
+            <input type="file" id="customize-import-file" accept="application/json,.json" hidden>
+            <p class="customize-hint">Changes apply instantly and persist in local storage. Export/import shares colors and layout prefs only — not passwords or room data.</p>
           </div>
         </form>
       </section>
@@ -1158,7 +1214,7 @@ def pk_import_dialog(role: str) -> str:
         <input id="pk-token" name="token" type="password" required>
         <label for="pk-system">System ref</label>
         <input id="pk-system" name="system_ref" value="@me" required>
-        <p class="pk-edit-hint">Your token is used for this import only and is not saved.</p>
+        <p class="pk-edit-hint">Your token is used for this import only and is not saved. Works in the browser on the static page and on the Python server.</p>
         <button type="submit">Import alters</button>
       </form>
     </dialog>
