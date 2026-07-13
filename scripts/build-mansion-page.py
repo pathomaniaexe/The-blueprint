@@ -20,12 +20,20 @@ def static_path(path: str) -> str:
 mansion.app_path = static_path  # type: ignore[attr-defined]
 
 
+def load_rooms_for_build() -> list:
+    """Prefer mansion/data/rooms.json (server path); fall back to legacy mansion/rooms.json."""
+    primary = ROOT / "mansion" / "data" / "rooms.json"
+    legacy = ROOT / "mansion" / "rooms.json"
+    for path in (primary, legacy):
+        if path.exists():
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(data, list):
+                return data
+    return mansion.init_rooms()
+
+
 def main() -> None:
-    rooms_file = ROOT / "mansion" / "rooms.json"
-    if rooms_file.exists():
-        mansion.ROOMS = json.loads(rooms_file.read_text(encoding="utf-8"))
-    else:
-        mansion.ROOMS = mansion.init_rooms()
+    mansion.ROOMS = load_rooms_for_build()
 
     login_body = mansion.login_page().decode("utf-8")
     login_start = login_body.index('<section class="login-shell">')
@@ -35,10 +43,28 @@ def main() -> None:
         f'<form class="login-panel" method="post" action="{static_path("/login")}" autocomplete="off">',
         '<form class="login-panel" id="login-form" autocomplete="off">',
     )
-    login_html = login_html.replace(
-        '<p class="intro">Enter the house password to continue.</p>',
-        '<p class="intro">Enter the house password to continue.</p>\n        <p class="error" id="login-error" hidden></p>',
-    )
+    # Match both customize-aware and plain intro markup so #login-error is always injected.
+    if 'id="login-error"' not in login_html:
+        intro_markers = (
+            '<p class="intro" data-customize="loginIntro">Enter the house password to continue.</p>',
+            '<p class="intro">Enter the house password to continue.</p>',
+        )
+        injected = False
+        for marker in intro_markers:
+            if marker in login_html:
+                login_html = login_html.replace(
+                    marker,
+                    marker + '\n          <p class="error" id="login-error" hidden></p>',
+                    1,
+                )
+                injected = True
+                break
+        if not injected:
+            login_html = login_html.replace(
+                '<input id="password"',
+                '<p class="error" id="login-error" hidden></p>\n          <input id="password"',
+                1,
+            )
 
     dashboard = mansion.dashboard_page("owner").decode("utf-8")
     dash_start = dashboard.index('<section class="house">')
