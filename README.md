@@ -32,7 +32,7 @@ Browser-side notes that stay on your device.
 
 Rename the site, edit login text, and pick your own colors.
 
-![Customize tab with site name fields and color pickers](https://cdn.discordapp.com/attachments/1523097457687265493/1523826767624933539/4r4fbtf336.png?ex=6a4d85c4&is=6a4c3444&hm=c1c1151eac687a7840afd342060f0a57073bdf8fa18b0c8dc7724ffc9cd4ab08&)
+![Customize tab with site name fields and color pickers](https://media.discordapp.net/attachments/1523097457687265493/1523826767104708801/k9dn9n5d8b.png?ex=6a556ec4&is=6a541d44&hm=425ac61b0a2fe3851037f82fa1af97bd28361339f014036e387569f268655a8a&=&format=webp&quality=lossless&width=2300&height=1400)
 
 ---
 
