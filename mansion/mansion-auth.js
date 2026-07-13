@@ -22,12 +22,41 @@
     bytes.forEach((b) => {
       binary += String.fromCharCode(b);
     });
-    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/g, "");
+  }
+
+  function safeEqual(left, right) {
+    const a = String(left);
+    const b = String(right);
+    const len = Math.max(a.length, b.length);
+    let diff = a.length === b.length ? 0 : 1;
+    for (let i = 0; i < len; i += 1) {
+      diff |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
+    }
+    return diff === 0;
   }
 
   async function passwordMatches(password, stored) {
-    const [scheme, iterations, salt, expected] = stored.split("$");
+    const parts = String(stored || "").split("$");
+    if (parts.length !== 4) return false;
+    const [scheme, iterations, salt, expected] = parts;
     if (scheme !== "pbkdf2_sha256") return false;
+    const iter = Number(iterations);
+    if (!Number.isFinite(iter) || iter < 1) return false;
+
+    // IMPORTANT: WebCrypto PBKDF2 requires a secure context in many browsers.
+    // file:// and some plain HTTP origins can block crypto.subtle.
+    if (!globalThis.crypto || !globalThis.crypto.subtle) {
+      throw new Error(
+        "This browser does not support WebCrypto (crypto.subtle). " +
+          "Serve the site over HTTP(S) (for example python3 -m mansion.app) " +
+          "or open it from localhost, then try again."
+      );
+    }
+
     const keyMaterial = await crypto.subtle.importKey(
       "raw",
       new TextEncoder().encode(password),
@@ -35,23 +64,42 @@
       false,
       ["deriveBits"]
     );
+
     const derived = await crypto.subtle.deriveBits(
       {
         name: "PBKDF2",
         salt: b64ToBytes(salt),
-        iterations: Number(iterations),
+        iterations: iter,
         hash: "SHA-256",
       },
       keyMaterial,
       256
     );
-    return bytesToB64(new Uint8Array(derived)) === expected;
+
+    return safeEqual(bytesToB64(new Uint8Array(derived)), expected);
   }
 
   async function verifyPassword(password) {
     if (await passwordMatches(password, OWNER_HASH)) return "owner";
     if (await passwordMatches(password, VIEWER_HASH)) return "viewer";
     return null;
+  }
+
+  function ensureLoginErrorEl() {
+    let error = document.getElementById("login-error");
+    if (error) return error;
+
+    // In some builds, the builder didn't inject the expected #login-error.
+    // Create it so the submit handler can always report errors.
+    const form = document.getElementById("login-form");
+    if (!form) return null;
+
+    error = document.createElement("p");
+    error.id = "login-error";
+    error.className = "error";
+    error.hidden = true;
+    form.insertAdjacentElement("afterend", error);
+    return error;
   }
 
   function applyRole(role) {
@@ -80,7 +128,8 @@
     if (login) login.hidden = false;
     if (mansion) mansion.hidden = true;
     sessionStorage.removeItem(SESSION_KEY);
-    const error = document.getElementById("login-error");
+
+    const error = ensureLoginErrorEl();
     if (error) {
       error.textContent = message || "";
       error.hidden = !message;
@@ -89,14 +138,23 @@
 
   async function handleLogin(event) {
     event.preventDefault();
+
     const input = document.getElementById("password");
-    const password = input ? input.value : "";
-    const role = await verifyPassword(password);
-    if (!role) {
-      showLogin("That password did not open the door.");
-      return;
+    const password = input ? String(input.value || "").trim() : "";
+
+    try {
+      const role = await verifyPassword(password);
+      if (!role) {
+        showLogin("That password did not open the door.");
+        return;
+      }
+      showMansion(role);
+    } catch (err) {
+      // If WebCrypto fails (often due to insecure context restrictions), this
+      // prevents the click from looking like it does nothing.
+      const msg = err && err.message ? err.message : String(err);
+      showLogin(msg);
     }
-    showMansion(role);
   }
 
   function handleLogout() {
@@ -108,7 +166,10 @@
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("login-form");
     const lockBtn = document.getElementById("lock-site");
+
+    // Always wire the handler if the form exists.
     if (form) form.addEventListener("submit", handleLogin);
+
     if (lockBtn) lockBtn.addEventListener("click", handleLogout);
 
     const saved = sessionStorage.getItem(SESSION_KEY);
@@ -119,3 +180,4 @@
     }
   });
 })();
+
